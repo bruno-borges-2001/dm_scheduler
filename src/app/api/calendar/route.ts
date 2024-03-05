@@ -1,0 +1,13 @@
+import { calendar } from '@googleapis/calendar'
+import { NextResponse } from 'next/server'
+
+export async function GET() {
+  const token = 'ya29.c.c0AY_VpZg2Nj2fYhfP8VEWAMTBAtvKrjWOYq9VQhYdfszcezijHfuhQ1B7vc9bP6YfeSMgJPAp8SbI0aNIZj8t_62oiT7Z2G66mBkijGcwYEfaiz364xJksJjqsoiFXKVRADC4wsW4RKZQr1JSdixJHqRmC-32cxD36CUIS0JK-Ox3CNJON0ZglU3iuUkJ0JtTxMJ4eYKxDFij9cpMR3DMtHLqAO2tlktNd1gM_-phSV26huwrUdsdo5abX7C9Y0qsRbxBwkfaw62fdsuEiQ5STuBZ0e3ZZ0bWMTfJb1kObVFEPwKaKFl8rH982VLULswihFiIq4sYqwIQgsNvtn4bw78fsWv7lcIn28AczAxf-C5KkBNK-3Vea9CgmQT387C11bp4140SSBdpxWfS_SYqf1q4a86M_fi37sWF8ovi6lQBFrZSh-Wt4Q24ouu7Mr49paQh5jqZJgJ777WJ_tfuJfQxlvxU4nYv528hfvs-Wk_f4wxFeu-iF8uih60b7qpg21VzyU7q7IiFpm2gw_6a2UeB29Yl81UtZrwI5xrcxXMUjJ34agQw4y-uc3o-xr5kiZ9fupRBqjrpo4VWlrBM2wM9mdJeo5qlO1bScvonkhWX6WQV4b08fz40mRZv4uWv5mlSwldv3USVscbOzWfQ2sp_VyYxQ9FMj54m7eIuFjvi5Oc8F4M6tRBfs8OzpFpezv1653F7dFdOWz-dIdSyp3hWYk_afasnqa4-xjtw8gw-rrdeb_3Udj5Z07014ufaIVYVIMxcn90V-xl0YIvBM_eYlqZIt8wr382n9fl9Fjgn8XS708wj84ubflpdyd6cZ6t-SU2ozf_hpn1tva1X2jrVjBdsVil3mW_d3QfXv-UdIJh56WVOcw7n4B-eFf-tX_c03nS6n-rfp_cZ07VdMQp_J0UFIOhhpd_amwcrYROemv1aShwgMQ0Yjq126-Om-WQsl-Xp813Y4jZ-kfch_VWsaaXep7WfFZ88U-Wqdb0VurQV4y8yVRU'
+  const calendarId = 'b35c5a5f9c944309b26d2426de5956647db2b0e268445b2d19e7098fa7592c7b@group.calendar.google.com'
+
+  const response = await calendar('v3').events.list({ calendarId, oauth_token: token })
+
+  console.log(response.data)
+
+  return NextResponse.json(response.data)
+}

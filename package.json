@@ -32,6 +32,7 @@
     "clsx": "^2.1.0",
     "drizzle-orm": "^0.29.4",
     "drizzle-zod": "^0.5.1",
+    "google-auth-library": "^9.6.3",
     "lucide-react": "^0.344.0",
     "nanoid": "^5.0.6",
     "next": "14.1.0",
