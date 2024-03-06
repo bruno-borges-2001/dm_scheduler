@@ -13,6 +13,12 @@ module.exports = {
       },
     },
     extend: {
+      gridTemplateAreas: {
+        'header': ['left middle right']
+      },
+      gridTemplateColumns: {
+        'header': 'minmax(auto,1fr) auto 1fr'
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -72,5 +78,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require('@savvywombat/tailwindcss-grid-areas')
+  ],
 }

@@ -1,11 +1,7 @@
 import { getUserAuth } from "@/lib/auth/utils";
 import { redirect } from "next/navigation";
 
-export default async function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AuthLayout({ children }: React.PropsWithChildren) {
   const session = await getUserAuth();
   if (session?.session) redirect("/dashboard");
 
