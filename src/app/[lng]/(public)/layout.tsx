@@ -8,6 +8,7 @@ import Link from "next/link";
 
 export default async function AppLayout({ children, params: { lng } }: PageWithChildrenProps) {
   const { session } = await getUserAuth()
+
   const { t } = await useTranslation(lng, 'Header')
 
   return (

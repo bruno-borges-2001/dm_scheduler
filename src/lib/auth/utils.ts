@@ -1,17 +1,20 @@
 import { db } from "@/lib/db/index";
 import { env } from "@/lib/env.mjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { eq } from "drizzle-orm";
 import { DefaultSession, getServerSession, NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { accounts } from "../db/schema/auth";
 import { fallbackLng } from "../i18n/settings";
 
 declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"] & {
       id: string;
+      oauthToken?: string
     };
   }
 }
@@ -21,8 +24,9 @@ export type AuthSession = {
     user: {
       id: string;
       image: string
-      name?: string;
-      email?: string;
+      name: string;
+      email: string;
+      oauthToken?: string
     };
   } | null;
 };
@@ -30,7 +34,12 @@ export type AuthSession = {
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
   callbacks: {
-    session: ({ session, user }) => {
+    session: async ({ session, user }) => {
+      const fetchedUser = await db.query.accounts.findFirst({ where: eq(accounts.userId, user.id) })
+
+      if (fetchedUser?.access_token)
+        session.user.oauthToken = fetchedUser.access_token
+
       session.user.id = user.id;
       return session;
     },
