@@ -2,12 +2,13 @@ import Header from "@/components/organisms/Header";
 import { AvatarButton } from "@/components/organisms/Header/client";
 import { Button } from "@/components/ui/button";
 import { getUserAuth } from "@/lib/auth/utils";
+import { useTranslation } from "@/lib/i18n";
+import { PageWithChildrenProps } from "@/types/common";
 import Link from "next/link";
 
-export default async function AppLayout({ children }: React.PropsWithChildren) {
+export default async function AppLayout({ children, params: { lng } }: PageWithChildrenProps) {
   const { session } = await getUserAuth()
-
-  console.log(session)
+  const { t } = await useTranslation(lng, 'Header')
 
   return (
     <>
@@ -17,7 +18,9 @@ export default async function AppLayout({ children }: React.PropsWithChildren) {
           <AvatarButton name={session.user.name ?? ''} image={session.user.image} />
           :
           <Button asChild>
-            <Link href="/sign-in">Access your account to start</Link>
+            <Link href="/sign-in">
+              {t('loginMessage')}
+            </Link>
           </Button>
         }
       />

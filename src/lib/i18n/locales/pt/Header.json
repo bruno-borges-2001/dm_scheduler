@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "dashboard": "Painel de Controle",
+    "signout": "Sair"
+  },
+  "loginMessage": "Acesse sua conta para começar"
+}

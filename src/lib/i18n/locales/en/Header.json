@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "dashboard": "Dashboard",
+    "signout": "Sign Out"
+  },
+  "loginMessage": "Acess your account to start"
+}
