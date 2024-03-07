@@ -1,4 +1,3 @@
-import Header from "@/components/organisms/Header";
 import Providers from "@/hooks/Providers";
 import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
@@ -6,6 +5,7 @@ import { PageWithChildrenProps } from "@/types/common";
 import { dir } from 'i18next';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,11 +25,8 @@ export default function RootLayout({ children, params: { lng } }: PageWithChildr
       <head>
       </head>
       <body className={cn(inter.className, 'flex flex-col w-screen h-svh bg-primary-foreground')}>
-        <Providers language={lng}>
-          <Header />
-          <main className="grow w-full max-w-5xl mx-auto">
-            {children}
-          </main>
+        <Providers language={lng} cookies={cookies().toString()}>
+          {children}
         </Providers>
       </body>
     </html>

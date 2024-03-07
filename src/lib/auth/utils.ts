@@ -1,10 +1,12 @@
 import { db } from "@/lib/db/index";
+import { env } from "@/lib/env.mjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { DefaultSession, getServerSession, NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
-import { redirect } from "next/navigation";
-import { env } from "@/lib/env.mjs"
 import GoogleProvider from "next-auth/providers/google";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { fallbackLng } from "../i18n/settings";
 
 declare module "next-auth" {
   interface Session {
@@ -18,6 +20,7 @@ export type AuthSession = {
   session: {
     user: {
       id: string;
+      image: string
       name?: string;
       email?: string;
     };
@@ -33,7 +36,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   providers: [
-     GoogleProvider({
+    GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     })
@@ -48,6 +51,13 @@ export const getUserAuth = async () => {
 
 export const checkAuth = async () => {
   const { session } = await getUserAuth();
-  if (!session) redirect("/api/auth/signin");
-};
+  if (!session) {
+    const headersList = headers();
+    const from = headersList.get('x-url');
+    const language = headersList.get('x-language') ?? fallbackLng;
 
+    redirect(`/${language}/sign-in?from=${from ?? ''}`);
+  }
+
+  return { session } as AuthSession
+};
